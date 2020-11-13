@@ -1,0 +1,26 @@
+# syntax = docker/dockerfile:1.0-experimental
+FROM ubuntu:eoan as build
+
+RUN apt update
+RUN apt upgrade
+
+# install base dependencies
+RUN apt install build-essential uuid-dev cmake default-jre python3 python3-dev python3-pip libantlr4-runtime-dev antlr4
+
+
+# ENV PATH=/opt/rh/rh-python36/root/usr/bin:$PATH
+
+# Install python dependencies
+RUN pip3 install --upgrade pip && \
+    pip3 install hdlConvertor
+
+ENV PATH=$OPENROAD/bin:$OPENROAD/bin/Linux-x86_64:$OPENROAD/pdn/scripts:$PATH
+ENV LD_LIBRARY_PATH=$OPENROAD/lib:$OPENROAD/lib/Linux-x86_64:$LD_LIBRARY_PATH
+ENV MANPATH=$OPENROAD/share/man:$MANPATH
+
+COPY ./openLANE_flow.tar.gz /
+RUN mkdir /openLANE_flow
+RUN tar -xzf openLANE_flow.tar.gz -C openLANE_flow&& \
+    rm -rf openLANE_flow.tar.gz
+
+WORKDIR /openLANE_flow

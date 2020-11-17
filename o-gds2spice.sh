@@ -1,5 +1,5 @@
 #!/bin/bash
-export MAGIC=/ef/apps/ocd/magic/8.3.67-202010151618/bin/magic
+export MAGIC=//ef/apps/ocd/magic/8.3.83-202011161629/bin/magic
 export MAGTYPE=mag; export PDKPATH=/ef/tech/SW/EFS8A ; $MAGIC -dnull -noconsole -rcfile $PDKPATH/libs.tech/magic/20200408/EFS8A.magicrc  <<EOF
 
 drc off
@@ -16,7 +16,7 @@ writeall force
 ##########
 select top cell
 expand
-port makeall
+#port makeall
 ##########
 extract unique 			;# Turns off joinNetsByName - BY DEFAULT IT IS ON
 extract style ngspice(sim)	;# styles/extract: ngspice(sim) --> with subckts, ngspice(lvs) --> explicit M for transistors, ngspice(si) <<- DO NOT USE si 

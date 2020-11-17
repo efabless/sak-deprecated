@@ -33,7 +33,7 @@ select top cell
 drc euclidean on
 drc style drc(full)
 drc check
-#drc catchup
+drc catchup
 set drcresult [drc listall why]
 
 

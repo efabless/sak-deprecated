@@ -520,8 +520,8 @@ foreach oord $bbox0 {
 puts "info: outScale: [format "%.6f" $outScale], view-bbox: $bbox0"
 puts "info: Root cell box: ([lindex $bbs 0]  [lindex $bbs 1]), ([lindex $bbs 2]  [lindex $bbs 3])"
 
-#drc check
-#drc catchup
+drc check
+drc catchup
 drc statistics
 drc rulestats
 # puts "doing plain: drc count"

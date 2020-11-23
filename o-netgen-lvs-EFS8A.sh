@@ -17,8 +17,8 @@
 
 export TARGET_DIR=$1
 export DESIGN_NAME=$2
-export SPICE_NETLIST=$3
-export VERILOG_NETLIST=$4
+export SPICE_NETLIST=$TARGET_DIR/$3
+export VERILOG_NETLIST=$TARGET_DIR/$4
 export PDK_ROOT=$5
 export OUT_DIR=${6:-$TARGET_DIR/results/}
 

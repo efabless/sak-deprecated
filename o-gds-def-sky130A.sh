@@ -13,23 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# To call: ./magic-ext.sh <target_path> <design_name> <pdk-root> <target-type> <pdk-name> <output_path>
+# To call: ./gds-def-sky130A.sh <target_path> <design_name> <pdk-root> [<output_path> default is <target_path>/results/]
 
 export TARGET_DIR=$1
 export DESIGN_NAME=$2
 export PDK_ROOT=$3
-export TARGET_TYPE=$4
-export PDK=$5
-export OUT_DIR=$6
-export TCL_CALL_PATH=${7:-$(pwd)}
+export OUT_DIR=${4:-$TARGET_DIR/results/}
+export TCL_CALL_PATH=$(pwd)/core_scripts
 
-echo "Running Magic..."
-export MAGIC_MAGICRC=$PDK_ROOT/$PDK/libs.tech/magic/$PDK.magicrc
-
-magic \
-    -noconsole \
-    -dnull \
-    -rcfile $MAGIC_MAGICRC \
-    $TCL_CALL_PATH/magic-ext.tcl \
-    </dev/null \
-    |& tee $OUT_DIR/magic_ext.log
+if ! [[ -d "$OUT_DIR" ]]
+then
+    mkdir $OUT_DIR
+fi
+bash ./base/magic-gds.sh $TARGET_DIR $DESIGN_NAME $PDK_ROOT "def" "sky130A" $OUT_DIR $TCL_CALL_PATH

@@ -30,6 +30,15 @@ magic \
     -noconsole \
     -dnull \
     -rcfile $MAGIC_MAGICRC \
-    $TCL_CALL_PATH/magic-ext.tcl \
+    $TCL_CALL_PATH/magic-gds-write.tcl \
     </dev/null \
-    |& tee $OUT_DIR/magic_ext.log
+    |& tee $OUT_DIR/magic_gds_write.log
+
+magic \
+    -noconsole \
+    -dnull \
+    -rcfile $MAGIC_MAGICRC \
+    $TCL_CALL_PATH/magic-gds-read.tcl \
+    </dev/null \
+    |& tee $OUT_DIR/magic_gds_read.log
+

@@ -1,4 +1,3 @@
-#!/bin/bash
 # Copyright 2020 Efabless Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,23 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# To call: ./magic-ext.sh <target_path> <design_name> <pdk-root> <target-type> <pdk-name> <output_path>
+drc off
 
-export TARGET_DIR=$1
-export DESIGN_NAME=$2
-export PDK_ROOT=$3
-export TARGET_TYPE=$4
-export PDK=$5
-export OUT_DIR=$6
-export TCL_CALL_PATH=${7:-$(pwd)}
+gds readonly true
+gds rescale false
 
-echo "Running Magic..."
-export MAGIC_MAGICRC=$PDK_ROOT/$PDK/libs.tech/magic/$PDK.magicrc
+puts "\[INFO\]: Saving .mag view With BBox Values: [box values]"
+# This comes afterwards, so that it would contain GDS pointers
+# And yes, we need to re-read the GDS we just generated...
+gds read $::env(OUT_DIR)/$::env(DESIGN_NAME).gds
+cellname filepath $::env(DESIGN_NAME) $::env(OUT_DIR)
+save
 
-magic \
-    -noconsole \
-    -dnull \
-    -rcfile $MAGIC_MAGICRC \
-    $TCL_CALL_PATH/magic-ext.tcl \
-    </dev/null \
-    |& tee $OUT_DIR/magic_ext.log
+puts "\[INFO\]: MAGIC TAPEOUT STEP DONE"
+exit 0

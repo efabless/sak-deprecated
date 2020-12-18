@@ -46,6 +46,21 @@ if args.waivableList is not None:
 
 header = "RULE,Waivable,rule_letter,category,COUNT 1, COUNT 2\n"
 
+
+mainOutputFile = outputDirectory+'/'+os.path.basename(summaryFolder)+'_merged.csv'
+
+mainOutputFileOpener = open(mainOutputFile, "w+")
+mainOutputFileOpener.write(header)
+mainOutputFileOpener.close()
+
+
+nonwaivableOutputFile = outputDirectory+'/'+os.path.basename(summaryFolder)+'_non_waivable.csv'
+
+nonwaivableFileOpener = open(nonwaivableOutputFile, "w+")
+nonwaivableFileOpener.write(header)
+nonwaivableFileOpener.close()
+
+
 def getListOfFiles(dirName):
     # create a list of file and sub directories
     # names in the given directory
@@ -95,6 +110,11 @@ def extractSummary(summaryFile):
                 waivable= 'no'
                 if ruleName in waiveList:
                     waivable='yes'
+                elif int(rule[0][1]) + int(rule[0][2]) != 0:
+                    nonwaivableFileOpener = open(nonwaivableOutputFile, "a+")
+                    nonwaivableFileOpener.write(str(",".join((ruleName, waivable,rk,rule_category,rule[0][1],rule[0][2])))+'\n')
+                    nonwaivableFileOpener.close()
+
                 outputFileOpener = open(outputFile, "a+")
                 outputFileOpener.write(str(",".join((ruleName, waivable,rk,rule_category,rule[0][1],rule[0][2])))+'\n')
                 outputFileOpener.close()
@@ -102,12 +122,6 @@ def extractSummary(summaryFile):
                 mainOutputFileOpener = open(mainOutputFile, "a+")
                 mainOutputFileOpener.write(str(",".join((ruleName, waivable,rk,rule_category,rule[0][1],rule[0][2])))+'\n')
                 mainOutputFileOpener.close()
-
-mainOutputFile = outputDirectory+'/'+os.path.basename(summaryFolder)+'_merged.csv'
-
-mainOutputFileOpener = open(mainOutputFile, "w+")
-mainOutputFileOpener.write(header)
-mainOutputFileOpener.close()
 
 files = getListOfFiles(summaryFolder)
 for f in files:
